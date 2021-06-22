@@ -6,31 +6,31 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: swagger
+          uri: lb://GATEWAY-SERVICE
+          order: 1000
+          predicates:
+            - Path=/api/**
+          filters:
+            - SwaggerHeaderFilter
         - id: pokemon-service
-          uri: lb://OPENFEIGN
+          uri: lb://POKEMON-SERVICE
           predicates:
             - Path=/pokemon-service/**
           filters:
-#            - RewritePath=/pokemon-service/(?<path>.*), /$\{path}
-#            - SwaggerHeaderFilter
-#            - StripPrefix=1
+            - StripPrefix=1
 
         - id: gym-service
           uri: lb://GYM-SERVICE
           predicates:
             - Path=/gym-service/**
           filters:
-#            - RewritePath=/gym-service/(?<path>.*), /$\{path}
-#            - SwaggerHeaderFilter
-#            - StripPrefix=1
+            - StripPrefix=1
 
       # Without specifying routes, would have to prefix with eureka service name (case-sensitive) when calling APIs
       ## e.g.: localhost:8100/<eureka-service-name>/<endpoint exposed by the eureka service name that we want to call>
       ## this would also resulted in ReactiveCompositeDiscoveryClients to be detected - need to find how to explicitly disable spring.cloud.discovery.reactive.clients
-      default-filters:
-        - SwaggerHeaderFilter
-        - StripPrefix=1
-#      discovery:
-#        locator:
-#          enabled: true
+      discovery:
+        locator:
+          enabled: false
 
