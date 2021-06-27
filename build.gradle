@@ -17,16 +17,30 @@ ext {
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok'
+
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: '3.0.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: '3.0.3'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter'
 //    implementation 'org.springframework.boot:spring-boot-starter-web'
 // --> Don't use it with spring cloud gateway because spring cloud gateway runs on top of Netty and requires webflux
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway', version: '3.0.3'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-kubernetes', version: '1.1.9.RELEASE'
+//    testImplementation group: 'io.dekorate', name: 'kubernetes-spring-starter', version: '2.1.4'
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    testImplementation 'org.springframework.security:spring-security-test'
+
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-security', version: '2.2.5.RELEASE'
 }
 
 dependencyManagement {
