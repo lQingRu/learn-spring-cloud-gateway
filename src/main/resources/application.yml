@@ -3,6 +3,17 @@ server:
 spring:
   application:
     name: gateway-service
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/gateway-service
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: app
+            client-secret: 83696c0f-f76c-4b4c-b4fc-47800b22eb3e
   cloud:
     gateway:
       routes:
@@ -12,6 +23,7 @@ spring:
           predicates:
             - Path=/api/**
           filters:
+            - TokenRelay=
             - SwaggerHeaderFilter
         - id: pokemon-service
           uri: lb://POKEMON-SERVICE
@@ -19,7 +31,7 @@ spring:
             - Path=/pokemon-service/**
           filters:
             - StripPrefix=1
-
+#            - TokenRelay=
         - id: gym-service
           uri: lb://GYM-SERVICE
           predicates:
@@ -33,4 +45,23 @@ spring:
       discovery:
         locator:
           enabled: false
+
+#
+#keycloak:
+#  auth-server-url: http://localhost:8080/auth
+#  realm: app
+#  #  public-client: true
+#  principal-attribute: preferred_username
+#  resource: app
+#  credentials:
+#    secret: 634fed40-5c00-4924-b704-04de370ba446
+#  use-resource-role-mappings: true
+#  autodetect-bearer-only: true
+#  security-constraints:
+#    - auth-roles:
+#        - Apple
+#      security-collections:
+#        - name:
+#          patterns:
+#            - /item/*
 
