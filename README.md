@@ -57,9 +57,15 @@ public class GatewayDiscoveryConfiguration {
     - Currently "try it out" all stripped service name hence 404 Exception
     (need to find a way to add in prefix)
     - [Supposed solution for that but not working, filter not being run](https://programmer.group/spring-cloud-gateway-swagger-nginx-integration.html)
+        - Previously was not able to run because the filters only work for services that have been configured to be routed to 
+- Another suggested solution: (Centralized API Documentation in Microservices Using Spring Boot, SpringFox Swagger-UI, and Eureka) [https://dzone.com/articles/centralized-documentation-in-microservice-spring-b]
+- To explore: [Swagger, Spring Boot 2 With a Reverse-Proxy in Docker](https://medium.com/swlh/swagger-spring-boot-2-with-a-reverse-proxy-in-docker-8a8795aa3da4)
 
 ## Resources:
 - [Exploring the New Spring Cloud Gateway](https://www.baeldung.com/spring-cloud-gateway)
 - [Swagger Resource](https://swagger.io/docs/specification/about/)
 - [Custom filters for Spring Gateway](https://www.baeldung.com/spring-cloud-custom-gateway-filters)
 - [Quick Guide to Microservices With Spring Boot 2.0, Eureka, and Spring Cloud](https://dzone.com/articles/quick-guide-to-microservices-with-spring-boot-20-e)
+- [Spring Cloud Gateway OIDC Tokenrelay](https://github.com/timtebeek/spring-security-samples/tree/master/spring-cloud-gateway-oidc-tokenrelay)
+- https://stackoverflow.com/questions/49196368/context-path-with-webflux
+- https://stackoverflow.com/questions/30534306/spring-boot-dynamic-servletpath-and-contextpath-for-embedded-tomcat

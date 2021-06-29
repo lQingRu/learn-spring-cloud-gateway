@@ -24,13 +24,20 @@ spring:
             - Path=/api/**
           filters:
             - TokenRelay=
-            - SwaggerHeaderFilter
+#            - SwaggerHeaderFilter
+        - id: openapi
+          uri: http://localhost:8100
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         - id: pokemon-service
           uri: lb://POKEMON-SERVICE
           predicates:
-            - Path=/pokemon-service/**
+          - Path=/pokemon-service/**
           filters:
-            - StripPrefix=1
+#            - StripPrefix=1
+          - RewritePath=/pokemon-service/(?<path>.*), /$\{path}
 #            - TokenRelay=
         - id: gym-service
           uri: lb://GYM-SERVICE
@@ -44,7 +51,11 @@ spring:
       ## this would also resulted in ReactiveCompositeDiscoveryClients to be detected - need to find how to explicitly disable spring.cloud.discovery.reactive.clients
       discovery:
         locator:
-          enabled: false
+          enabled: true
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
 
 #
 #keycloak:
