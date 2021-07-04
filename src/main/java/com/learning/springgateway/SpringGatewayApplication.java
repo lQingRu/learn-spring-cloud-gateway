@@ -1,25 +1,23 @@
 package com.learning.springgateway;
 
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
-import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@OpenAPIDefinition(servers = {
+        @Server(url = "http://localhost:8100/", description = "docker"),
+        @Server(url = "https://localhost/preis-api", description = "kubernetes")
+})
 public class SpringGatewayApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringGatewayApplication.class, args);
     }
-
+// This does not work probably because of using spring cloud gateway instead of zuul..maybe paths cannot be found so no groups
 //    @Autowired
 //    RouteDefinitionLocator locator;
 //
@@ -28,10 +26,9 @@ public class SpringGatewayApplication {
 //        List<GroupedOpenApi> groups = new ArrayList<>();
 //        List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
 //        definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service")).forEach(routeDefinition -> {
-////            String name = routeDefinition.getId().replaceAll("-service", "");
 //            String name = routeDefinition.getId();
+//            groups.add(GroupedOpenApi.builder().pathsToMatch("/" + name + "/**").group(name).build());
 //
-//            groups.add(GroupedOpenApi.builder().pathsToMatch("/v3/api-docs/"+ name+"/**").group(name).build());
 //        });
 //
 //        return groups;

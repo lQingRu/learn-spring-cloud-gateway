@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway
+spec:
+#  tls:
+#    - hosts:
+#        - spring-gateway123.com
+#      secretName: gateway-tls
+  rules:
+    - host: spring-gateway123.com
+      http:
+        paths:
+          - backend:
+              serviceName: spring-gateway
+              servicePort: 8100
+
+#  curl -X GET 'http://spring-gateway123.com/pokemon-service/api/pokemon/3' \
+#--header 'Content-Type: application/x-www-form-urlencoded' \
+#  --data-urlencode 'username=12999' \
+#  --data-urlencode 'client_id=app' \
+#  --data-urlencode 'password=pass' \
+#  --data-urlencode 'grant_type=password' \
+#  --data-urlencode 'client_secret=fb6403df-ea17-4e13-953a-c6ab109f0217'
+#
+#
+#  export access_token=$(\
+#  curl --insecure -X POST http://192.168.99.102:31335/auth/realms/my-gateway/protocol/openid-connect/token \
+#-H 'content-type: application/x-www-form-urlencoded' \
+#  -d 'username=12999&password=pass&grant_type=password&client_secret=fb6403df-ea17-4e13-953a-c6ab109f0217&client_id=app')
+#
+#  curl -v -X GET https://spring-gateway123.com/pokemon-service/api/pokemon/3
+#-H "Authorization: Bearer "$access_token

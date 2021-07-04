@@ -1,0 +1,22 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: spring-gateway
+  labels:
+    app: spring-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-gateway
+  template:
+    metadata:
+      labels:
+        app: spring-gateway
+    spec:
+      containers:
+        - name: spring-gateway
+          image: gateway:v1
+          ports:
+            - containerPort: 8100
+          imagePullPolicy: IfNotPresent

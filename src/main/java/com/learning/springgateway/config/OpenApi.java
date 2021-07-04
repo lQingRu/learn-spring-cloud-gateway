@@ -1,6 +1,10 @@
 package com.learning.springgateway.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.GroupedOpenApi;
@@ -20,12 +24,12 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
-//@Configuration
+//@Component
+@Configuration
 //@ConfigurationProperties(prefix = "springdoc.swagger-ui")
 public class OpenApi {
 //    @Autowired
-//    private RouteLocator routeLocator;
+    private RouteLocator routeLocator;
 
     public OpenApi(RouteLocator routeLocator, SwaggerUiConfigParameters swaggerUiConfigParameters) {
 
@@ -35,11 +39,11 @@ public class OpenApi {
         // Add the service name to the drop-down box
        routes.stream().filter(route -> route.getId().matches(".+-service")).forEach(route -> {
             String serviceName = route.getId();
-           swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(serviceName, "http://localhost:8100/v3/api-docs/"+serviceName ));
+           swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(serviceName));
         });
         swaggerUiConfigParameters.setUrls(swaggerUrls);
 
-//        this.routeLocator = routeLocator;
+        this.routeLocator = routeLocator;
 
     }
 
@@ -82,5 +86,15 @@ public class OpenApi {
 //        }
 //        return openAPI;
 //    }
+
+    // Set globally (supposed to be for all groups, but because we are not using GroupedOpenApi - so doesnt apply to all since we scraped) - only applies to root
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components().addSecuritySchemes("basicScheme",
+                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
+                .info(new Info().title("SpringShop API").version("3")
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+    }
 
 }

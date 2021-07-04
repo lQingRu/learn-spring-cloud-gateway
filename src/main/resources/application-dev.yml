@@ -15,18 +15,13 @@ spring:
           keycloak:
             client-id: app
             client-secret: fb6403df-ea17-4e13-953a-c6ab109f0217
-  #            client-secret: 83696c0f-f76c-4b4c-b4fc-47800b22eb3e
+#            client-secret: 83696c0f-f76c-4b4c-b4fc-47800b22eb3e
   cloud:
     gateway:
       routes:
-#        - id: gateway
-#          uri: http://localhost:8100
-#          predicates:
-#            - Path=/api/**
-#          filters:
-#            - SwaggerHeaderFilter
         - id: swagger
-          uri: http://localhost:8100
+#          uri: http://localhost:8100
+          uri: http://spring-gateway123.com
           order: 1000
           predicates:
             - Path=/api/**
@@ -34,35 +29,25 @@ spring:
             - SwaggerHeaderFilter
 #            - TokenRelay=
         - id: openapi
-          uri: http://localhost:8100
+#          uri: http://localhost:8100
+          uri: http://spring-gateway123.com
           predicates:
             - Path=/v3/api-docs/**
           filters:
             - SwaggerHeaderFilter
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         - id: pokemon-service
-          uri: http://localhost:8001
+#          uri: http://openfeign:8001
+          uri: http://openfeign123.com
           predicates:
            - Path=/pokemon-service/**
           filters:
             - SwaggerHeaderFilter
             - StripPrefix=1
-#            - SwaggerHeaderFilter
-#          - RewritePath=/pokemon-service/(?<path>.*), /$\{path}
-#            - TokenRelay=
-#        - id: gym-service
-#          uri: lb://GYM-SERVICE
-#          predicates:
-#            - Path=/gym-service/**
-#          filters:
-#            - StripPrefix=1
 
       # Without specifying routes, would have to prefix with eureka service name (case-sensitive) when calling APIs
       ## e.g.: localhost:8100/<eureka-service-name>/<endpoint exposed by the eureka service name that we want to call>
       ## this would also resulted in ReactiveCompositeDiscoveryClients to be detected - need to find how to explicitly disable spring.cloud.discovery.reactive.clients
-      discovery:
-        locator:
-          enabled: true
 springdoc:
   api-docs:
     groups:
